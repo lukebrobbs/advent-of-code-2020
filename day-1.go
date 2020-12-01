@@ -45,19 +45,25 @@ partA:
 			}
 		}
 	}
-partB:
-	for i, n := range seen {
-		for j, m := range seen {
-			for k, o := range seen {
-				if i >= j || j >= k {
+	if *partB {
+	partB:
+		for i, n := range seen {
+			for j, m := range seen {
+				sumNM := n + m
+				if sumNM >= 2020 {
 					continue
 				}
-				if n+m+o == 2020 {
-					fmt.Println(n * m * o)
-					break partB
+				for k, o := range seen {
+					if i >= j || j >= k {
+						continue
+					}
+					if sumNM+o == 2020 {
+						fmt.Println(n * m * o)
+						break partB
+					}
 				}
-			}
 
+			}
 		}
 	}
 }
