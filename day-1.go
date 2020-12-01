@@ -32,6 +32,8 @@ func main() {
 		}
 		seen[i] = n
 	}
+
+partA:
 	for i, n := range seen {
 		for j, m := range seen {
 			if i >= j {
@@ -39,8 +41,23 @@ func main() {
 			}
 			if n+m == 2020 {
 				fmt.Println(n * m)
-				return
+				break partA
 			}
+		}
+	}
+partB:
+	for i, n := range seen {
+		for j, m := range seen {
+			for k, o := range seen {
+				if i >= j || j >= k {
+					continue
+				}
+				if n+m+o == 2020 {
+					fmt.Println(n * m * o)
+					break partB
+				}
+			}
+
 		}
 	}
 }
