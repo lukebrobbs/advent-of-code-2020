@@ -18,7 +18,7 @@ func main() {
 		return
 	}
 	contents := string(bytes)
-
+	contains := make(map[int]bool)
 	split := strings.Split(contents, "\n")
 	seen := make([]int, len(split)-1)
 	for i, s := range split {
@@ -31,36 +31,30 @@ func main() {
 			break
 		}
 		seen[i] = n
+		contains[n] = true
 	}
 
 partA:
-	for i, n := range seen {
-		for j, m := range seen {
-			if i >= j {
-				continue
-			}
-			if n+m == 2020 {
-				fmt.Println(n * m)
-				break partA
-			}
+	for _, n := range seen {
+		if contains[2020-n] {
+			fmt.Println(n * (2020 - n))
+			break partA
 		}
 	}
 	if *partB {
 	partB:
-		for i, n := range seen {
-			for j, m := range seen {
-				sumNM := n + m
-				if sumNM >= 2020 {
+		for i, m := range seen {
+			for j, n := range seen {
+				if i > j {
 					continue
 				}
-				for k, o := range seen {
-					if i >= j || j >= k {
-						continue
-					}
-					if sumNM+o == 2020 {
-						fmt.Println(n * m * o)
-						break partB
-					}
+				sumMN := n + m
+				if sumMN >= 2020 {
+					continue
+				}
+				if contains[2020-sumMN] {
+					fmt.Println(m * n * (2020 - sumMN))
+					break partB
 				}
 
 			}
